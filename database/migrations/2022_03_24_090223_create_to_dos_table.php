@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class CreateToDosTable extends Migration
 {
@@ -16,7 +17,8 @@ class CreateToDosTable extends Migration
         Schema::create('to_dos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->
+            $table->string('task');
+            $table->boolean('status')->default(0)->comment('1=completed, 0=pendding');
             $table->timestamps();
         });
     }

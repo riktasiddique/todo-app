@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\ToDoController;
+use App\Models\ToDo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +21,11 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('to-do.index');
+    $user =Auth::user();
+    $to_dos = ToDo::Where('user_id', $user->id)->get();
+    return view('to-do.index', compact('to_dos', 'user'));
 })->middleware(['auth'])->name('dashboard');
+Route::resource('todo', ToDoController::class)->middleware(['auth']);
+Route::get('{todo}/is_complete', [ToDoController::class, 'IsCompleted'])->name('is_completed')->middleware(['auth']);
 
 require __DIR__.'/auth.php';
